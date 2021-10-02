@@ -3,9 +3,10 @@
 using namespace std;
 #include "stack.hpp"
 #include "palletStack.hpp"
+#include "palletQueue.hpp"
 
-int main(){
-    palletStack * pila = new palletStack();
+int main(){ 
+    /*palletStack * pila = new palletStack();
     cout << "Empty: " << pila->isEmpty() << endl;
     pila->print();
     pila->push("Arroz", 15, "kg");
@@ -20,5 +21,20 @@ int main(){
     pila->print();
     cout << "Size: " << pila->size() << endl;
     pila->pop();
-    pila->print();
+    pila->print();*/
+
+    palletQueue * queue = new palletQueue();
+    cout << "Empty: " << queue->isEmpty() << endl;
+    queue->print();
+    queue->add("Arroz", 15, "kg");
+    queue->add("Carne", 10, "kg");
+    queue->add("Agua", 20, "l");
+    cout << "Empty: " << queue->isEmpty() << endl;
+    queue->print();
+    cout << "Creando nodo" << endl;
+    palletNode * nodo = queue->front();
+    nodo->print();
+    queue->dequeue();
+    cout << "Quitando elemento" << endl;
+    queue->print();
 }
