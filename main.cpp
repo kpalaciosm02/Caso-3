@@ -2,19 +2,23 @@
 #include "node.hpp"
 using namespace std;
 #include "stack.hpp"
+#include "palletStack.hpp"
 
 int main(){
-    node * tmp = new node(2);
-    stack * pila = new stack();
-    cout << "vacia: " << pila->isEmpty() << endl;
-    pila->push(1);
-    cout << "Numer 1 Inserted: " << endl;
-    cout << "vacia: " << pila->isEmpty() << endl;
+    palletStack * pila = new palletStack();
+    cout << "Empty: " << pila->isEmpty() << endl;
     pila->print();
-    pila->push(2);
-    pila->push(3);
+    pila->push("Arroz", 15, "kg");
+    pila->push("Carne", 10, "kg");
+    pila->push("Agua", 20, "l");
+    cout << "Empty: " << pila->isEmpty() << endl;
     pila->print();
-    node * borrado = pila->pop();
-    borrado->print();
+    cout << "Creando nodo" << endl;
+    palletNode * nodo = pila->top();
+    nodo->print();
+    cout << "Probando top" << endl;
+    pila->print();
+    cout << "Size: " << pila->size() << endl;
+    pila->pop();
     pila->print();
 }

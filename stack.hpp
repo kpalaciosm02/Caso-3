@@ -15,16 +15,13 @@ struct stack{
     }
 
     void push(int _data){
+        node * tmp = new node(_data);
         if (isEmpty()){
-            node * tmp = new node(_data);
             firstNode = tmp;
-            //free(tmp);
         }
         else{
-            node * tmp = new node(_data);
             tmp->next = firstNode;
             firstNode = tmp;
-            //free(tmp);
         }
     }
 
@@ -37,6 +34,16 @@ struct stack{
             node * tmp = firstNode;
             firstNode = firstNode->next;
             return tmp;
+        }
+    }
+
+    node * top(){
+        if (isEmpty()){
+            cout << "Empty stack given, there is no data to pop." << endl;
+            return NULL;
+        }
+        else{
+            return firstNode;
         }
     }
 
