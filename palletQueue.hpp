@@ -61,11 +61,15 @@ struct palletQueue{
         else{
             palletNode * tmp = firstNode;
             while (tmp->next != NULL){
-                
                 tmp = tmp->next;
             }
-            palletNode * res = tmp;
-            tmp = NULL;
+            palletNode * tmp2 = firstNode;
+            while (tmp2->next != tmp){
+                tmp2 =  tmp2->next;
+            }
+            palletNode * res = tmp2->next;
+            tmp2->next = NULL;
+            return res;
         }
     }
 

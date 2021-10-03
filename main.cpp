@@ -31,10 +31,14 @@ int main(){
     queue->add("Agua", 20, "l");
     cout << "Empty: " << queue->isEmpty() << endl;
     queue->print();
-    cout << "Creando nodo" << endl;
+    cout << "Creating node" << endl;
     palletNode * nodo = queue->front();
     nodo->print();
-    queue->dequeue();
-    cout << "Quitando elemento" << endl;
+    palletNode * deleted = queue->dequeue();
+    cout << "Deleting last node" << endl;
     queue->print();
+    cout << "Deleted node: " << endl;
+    deleted->print();
+    palletNode * lastNode = queue->front();
+    lastNode->print();
 }
