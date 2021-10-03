@@ -4,17 +4,21 @@
 #define PALLET_QUEUE
 
 struct palletQueue{
+    //Struct that simulates a queue of pallets
     palletNode * firstNode;
 
     palletQueue(){
+        //Constructor method
         firstNode = NULL;
     }
 
     bool isEmpty(){
+        //Checks if the queue is empty
         return firstNode == NULL;
     }
 
     int size(){
+        //Returns an intiger with the size of the queue
         if (isEmpty()){
             return 0;
         }
@@ -29,6 +33,7 @@ struct palletQueue{
         }
     }
     void add(string _name, int _amount, string _unit){
+        //Puts a new node at the start of the queue
         palletNode * tmp = new palletNode(_name,_amount, _unit);
         if (isEmpty()){
             firstNode = tmp;
@@ -40,6 +45,7 @@ struct palletQueue{
     }
 
     palletNode * front(){
+        //Returns the last node from a queue, but it does delete it
         if (isEmpty()){
             cout << "Empty stack given, there is no data in this queue."<< endl;
             return NULL;
@@ -54,6 +60,7 @@ struct palletQueue{
     }
 
     palletNode * dequeue(){
+        //Returns the last node from a queue, it also deletes it
         if (isEmpty()){
             cout << "Empty stack given, there is no data to dequeue." << endl;
             return NULL;
@@ -74,6 +81,7 @@ struct palletQueue{
     }
 
     void print(){
+        //Prints the data from every node in the queue
         if (isEmpty()){
             cout << "Empty queue given." << endl;
         }
