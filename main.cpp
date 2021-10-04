@@ -79,35 +79,30 @@ void prepareTrucks(palletList * pList, liftTruckList * trucks){
     int pListSize = pList->getQuantity();
     int trucksSize = trucks->size(); 
     while (pList->isEmpty() == false){
-        cout << "pList size: " << pList->getQuantity() << endl;
+        //cout << "pList size: " << pList->getQuantity() << endl;
         palletNode * tmp = pList->remove(pList->firstNode);
+        //tmp->print();
         srand(time(NULL));
         int index = rand() % trucksSize;
         liftTruckNode * tmpTruck = trucks->firstNode;
         int counter = 0;
-        while (counter != index){
-            tmpTruck = tmpTruck->next;
-            counter += 1;
+        while (counter != index + 1){
+            if (counter == index){
+                tmpTruck->data->queue->add(tmp->data->name,tmp->data->amount,tmp->data->unit);
+                break;
+            }
+            else{
+                tmpTruck = tmpTruck->next;
+                counter += 1;
+            }
+            
         }
-        tmpTruck->data->queue->addNode(tmp);
-    }
-    //trucks->firstNode->print();
-    cout << trucks->firstNode->data->queue->size();
 
-    /*while (pList->isEmpty() == false){
-        int index = rand() % trucksSize;
-        palletNode * tmp = pList->remove(pList->firstNode);
-        //tmp->print();
-        liftTruckNode * truckTmp = trucks->firstNode;
-        int counter = 0;
-        while (counter != index){
-            truckTmp = truckTmp->next;
-            counter += 1;
-        }
-        truckTmp->data->queue->addNode(tmp);
+        //tmpTruck->data->queue->add(tmp->data->name,tmp->data->amount,tmp->data->unit);
+        trucks->firstNode->data->queue->print();
+        //trucks->firstNode->print();
     }
-    cout << trucks->firstNode->data->queue->size();*/
-    //trucks->firstNode->print();
+
 }
 
 int main(){ 
