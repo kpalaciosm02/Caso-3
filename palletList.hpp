@@ -35,7 +35,7 @@ struct palletList
             return length;
         }
     }
-    bool addStack(palletNode *pallet)
+    bool add(palletNode *pallet)
     {
 
         if (firstNode == NULL)
@@ -59,7 +59,7 @@ struct palletList
             return false;
         }
     }
-    void removeStack(palletNode *pallet)
+    void remove(palletNode *pallet)
     {
         if (firstNode == NULL)
         return;
