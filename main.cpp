@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <time.h>
 #include "node.hpp"
 using namespace std;
 #include "stack.hpp"
@@ -76,18 +77,45 @@ liftTruckList * fillTrucks(){
 
 void prepareTrucks(palletList * pList, liftTruckList * trucks){
     int pListSize = pList->getQuantity();
-    int trucksSize = trucks->size();
-    int v1 = rand() % pListSize;
-    int v2 = rand() % trucksSize;
-    cout << v1 << " " << v2<< endl;
+    int trucksSize = trucks->size(); 
+    while (pList->isEmpty() == false){
+        cout << "pList size: " << pList->getQuantity() << endl;
+        palletNode * tmp = pList->remove(pList->firstNode);
+        srand(time(NULL));
+        int index = rand() % trucksSize;
+        liftTruckNode * tmpTruck = trucks->firstNode;
+        int counter = 0;
+        while (counter != index){
+            tmpTruck = tmpTruck->next;
+            counter += 1;
+        }
+        tmpTruck->data->queue->addNode(tmp);
+    }
+    //trucks->firstNode->print();
+    cout << trucks->firstNode->data->queue->size();
+
+    /*while (pList->isEmpty() == false){
+        int index = rand() % trucksSize;
+        palletNode * tmp = pList->remove(pList->firstNode);
+        //tmp->print();
+        liftTruckNode * truckTmp = trucks->firstNode;
+        int counter = 0;
+        while (counter != index){
+            truckTmp = truckTmp->next;
+            counter += 1;
+        }
+        truckTmp->data->queue->addNode(tmp);
+    }
+    cout << trucks->firstNode->data->queue->size();*/
+    //trucks->firstNode->print();
 }
 
 int main(){ 
 
     palletQueue * queue = new palletQueue();
-    queue->add("Arroz", 15, "kg");
+    /*queue->add("Arroz", 15, "kg");
     queue->add("Carne", 10, "kg");
-    queue->add("Agua", 20, "l");
+    queue->add("Agua", 20, "l");*/
     liftTruck * truck1 = new liftTruck(5,queue);
     liftTruck * truck2 = new liftTruck(5,queue);
     liftTruckNode * node1 = new liftTruckNode(truck1);
@@ -95,7 +123,7 @@ int main(){
     liftTruckList * truckList = new liftTruckList();
     truckList->add(node1);
     truckList->add(node2);
-    cout << truckList->size() << endl;
+    //cout << truckList->size() << endl;
     palletNode * pNode1 = new palletNode("Galletas",25,"kg");
     palletNode * pNode2 = new palletNode("Coca Cola",50,"l");
     palletNode * pNode3 = new palletNode("Manzanas",15,"kg");

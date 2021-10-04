@@ -59,17 +59,18 @@ struct palletList
             return false;
         }
     }
-    void remove(palletNode *pallet)
+    palletNode * remove(palletNode *pallet)
     {
         if (firstNode == NULL)
-        return;
+        return NULL;
         else
         {
             palletNode *temp = firstNode;
             if (firstNode == pallet)
-            {
+            {   
+
                 firstNode = firstNode -> next;
-                return;
+                return pallet;
             }
             else
             {
@@ -80,7 +81,7 @@ struct palletList
                     if (temp == pallet)
                     {
                         last->next = temp->next;
-                        return;
+                        return temp;
                     }
                     else
                     {
@@ -88,7 +89,7 @@ struct palletList
                         temp = temp -> next;
                     }
                 }
-                return;
+                return NULL;
             }
 
         }

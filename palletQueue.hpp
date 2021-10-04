@@ -44,6 +44,16 @@ struct palletQueue{
         }
     }
 
+    void addNode(palletNode * tmpNode){
+        if (isEmpty()){
+            firstNode = tmpNode;
+        }
+        else{
+            tmpNode->next = firstNode;
+            firstNode = tmpNode;
+        }
+    }
+
     palletNode * front(){
         //Returns the last node from a queue, but it does delete it
         if (isEmpty()){
