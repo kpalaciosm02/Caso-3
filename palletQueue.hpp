@@ -90,6 +90,19 @@ struct palletQueue{
         }
     }
 
+    palletNode * dequeue2(){
+        if (isEmpty()){
+            cout << "Empty stack given, there is no data to dequeue." << endl;
+            return NULL;
+        }
+        else{
+            palletNode * tmp = firstNode;
+            firstNode = tmp->next;
+            tmp->next = NULL;
+            return tmp;
+        }
+    }
+
     void print(){
         //Prints the data from every node in the queue
         if (isEmpty()){

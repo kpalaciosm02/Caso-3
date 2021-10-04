@@ -40,6 +40,17 @@ struct liftTruckList{
         }
     }
 
+    void deleteFirst(){
+        if (isEmpty()){
+            cout << "Cannot delete a node from an empty list." << endl;
+        }
+        else{
+            liftTruckNode * tmp = firstNode;
+            firstNode = firstNode ->next;
+            tmp->next = NULL;
+        }
+    }
+
 };
 
 #endif

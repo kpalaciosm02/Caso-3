@@ -10,78 +10,12 @@ using namespace std;
 #include "palletStackList.hpp"
 #include "palletList.hpp"
 
-palletStackList * fill(){
-    palletStackList * storage = new palletStackList();
-    palletNode * pallet1 = new palletNode("Galletas",25,"kg");
-    palletNode * pallet2 = new palletNode("Coca Cola",50,"l");
-    palletNode * pallet3 = new palletNode("Manzanas",15,"kg");
-
-    palletStack * stackGalletas = new palletStack();
-    stackGalletas->push("Galletas",25,"kg");
-    stackGalletas->push("Galletas",25,"kg");
-    stackGalletas->push("Galletas",25,"kg");
-
-    palletStack * stackCoca = new palletStack();
-    stackCoca->push("Coca Cola",50,"l");
-    stackCoca->push("Coca Cola",50,"l");
-    stackCoca->push("Coca Cola",50,"l");
-    stackCoca->push("Coca Cola",50,"l");
-    stackCoca->push("Coca Cola",50,"l");
-
-    palletStack * stackManzanas = new palletStack();
-    stackManzanas->push("Manzanas",15,"kg");
-    stackManzanas->push("Manzanas",15,"kg");
-
-    palletStackNode * node1 = new palletStackNode(stackGalletas);
-    palletStackNode * node2 = new palletStackNode(stackCoca);
-    palletStackNode * node3 = new palletStackNode(stackManzanas);
-
-    storage->addStack(node1);
-    storage->addStack(node2);
-    storage->addStack(node3);
-
-    return storage;
-
-}
-
-liftTruckList * fillTrucks(){
-    palletQueue * queue1 = new palletQueue();
-    palletNode * node1 = new palletNode("Galletas",25,"kg");
-    palletNode * node2 = new palletNode("Coca Cola",50,"l");
-    palletNode * node3 = new palletNode("Manzanas",15,"kg");
-
-    queue1->add("Galletas",25,"kg");
-    queue1->add("Coca Cola", 50, "l");
-    queue1->add("Manzanas",15,"kg");
-
-    palletQueue * queue2 = new palletQueue();
-    queue2->add("Galletas",25,"kg");
-    queue2->add("Coca Cola", 50, "l");
-    queue2->add("Manzanas",15,"kg");
-
-    palletQueue * queue3 = new palletQueue();
-    queue3->add("Galletas",25,"kg");
-    queue3->add("Coca Cola", 50, "l");
-    queue3->add("Manzanas",15,"kg");
-
-    palletList * list = new palletList();
-    list->add(node1);
-    list->add(node2);
-    list->add(node3);
-    list->add(node1);
-    list->add(node2);
-    list->add(node3);
-    list->add(node2);
-
-}
-
-void prepareTrucks(palletList * pList, liftTruckList * trucks){
+liftTruckList * prepareTrucks(palletList * pList, liftTruckList * trucks){
+    //Pasa de una lista de pedidos a la cola de los montacargas
     int pListSize = pList->getQuantity();
     int trucksSize = trucks->size(); 
     while (pList->isEmpty() == false){
-        //cout << "pList size: " << pList->getQuantity() << endl;
         palletNode * tmp = pList->remove(pList->firstNode);
-        //tmp->print();
         srand(time(NULL));
         int index = rand() % trucksSize;
         liftTruckNode * tmpTruck = trucks->firstNode;
@@ -97,36 +31,83 @@ void prepareTrucks(palletList * pList, liftTruckList * trucks){
             }
             
         }
-
-        //tmpTruck->data->queue->add(tmp->data->name,tmp->data->amount,tmp->data->unit);
-        trucks->firstNode->data->queue->print();
-        //trucks->firstNode->print();
+        //trucks->firstNode->data->queue->print();
     }
+    return trucks;
+}
 
+void movePallets(liftTruckList * trucks, palletList * finalList, palletStackList * storage, palletList * order){
+    liftTruckList * loadedTrucks = prepareTrucks(order, trucks);
+    liftTruckNode * tmpTruck = trucks->firstNode;
+    while (trucks->isEmpty() != true){      //mientras haya montacargas
+        while(tmpTruck->data->queue->isEmpty() != true){        //mientras la cola de cada montacargas tenga trabajo
+            cout << "Llegue" << endl;
+            palletNode * tmpPallet = tmpTruck->data->queue->firstNode;
+            palletStackNode * tmpPalletStackStorage = storage->firstNode;
+            for (int i = 0; i < storage->getQuantity(); i++){       //recorre la bodega buscando coincidencia entre montacargas y producto
+                cout << "Llegue" << endl;
+                palletNode * tmpPalletStorage = tmpPalletStackStorage->data->firstNode;
+                if (tmpPalletStorage->data->name == tmpPallet->data->name && tmpPalletStorage->data->amount == tmpPallet->data->amount){
+                    finalList->addStart(tmpPalletStorage);
+                    tmpPalletStackStorage->data->pop();
+                    break;
+                }
+                else{
+                    tmpPalletStorage = tmpPalletStorage->next;
+
+                }
+            }
+            tmpTruck->data->queue->dequeue2();
+        }
+        trucks->deleteFirst();
+    } 
 }
 
 int main(){ 
 
-    palletQueue * queue = new palletQueue();
-    /*queue->add("Arroz", 15, "kg");
-    queue->add("Carne", 10, "kg");
-    queue->add("Agua", 20, "l");*/
-    liftTruck * truck1 = new liftTruck(5,queue);
-    liftTruck * truck2 = new liftTruck(5,queue);
+    palletQueue * queue1 = new palletQueue();
+    palletQueue * queue2 = new palletQueue();
+    cout << 1 << endl;
+
+    liftTruck * truck1 = new liftTruck(5,queue1);
+    liftTruck * truck2 = new liftTruck(5,queue2);
     liftTruckNode * node1 = new liftTruckNode(truck1);
     liftTruckNode * node2 = new liftTruckNode(truck2);
     liftTruckList * truckList = new liftTruckList();
+    cout << 2 << endl;
     truckList->add(node1);
     truckList->add(node2);
-    //cout << truckList->size() << endl;
     palletNode * pNode1 = new palletNode("Galletas",25,"kg");
     palletNode * pNode2 = new palletNode("Coca Cola",50,"l");
     palletNode * pNode3 = new palletNode("Manzanas",15,"kg");
+    cout << 3 << endl;
 
-    palletList * pList = new palletList();
-    pList->add(pNode1);
-    pList->add(pNode2);
-    pList->add(pNode3);
+    palletList * pList1 = new palletList();
+    palletList * pList2 = new palletList();
+    palletList * pList3 = new palletList();
+    cout << 4 << endl;
 
-    prepareTrucks(pList,truckList);
+    pList1->addStart(pNode1);
+    pList1->addStart(pNode1);
+    pList1->addStart(pNode1);
+
+    pList2->addStart(pNode2);
+
+    pList3->addStart(pNode3);
+    pList3->addStart(pNode3);
+    cout << 5 << endl;
+
+    palletStackList * storage = new palletStackList();
+    cout << 6 << endl;
+
+    //liftTruckList * list = prepareTrucks(pList1,truckList);
+
+    palletList * finalList = new palletList();
+    cout << 7 << endl;
+
+    palletList * order = new palletList();
+    order->addStart(pNode1);
+    cout << 8 << endl;
+
+    movePallets(truckList, finalList, storage, order);
 }

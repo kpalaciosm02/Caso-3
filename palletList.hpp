@@ -59,6 +59,16 @@ struct palletList
             return false;
         }
     }
+
+    void addStart(palletNode * pallet){
+        if (isEmpty()){
+            firstNode = pallet;
+        }
+        else{
+            pallet->next = firstNode;
+            firstNode = pallet;
+        }
+    }
     palletNode * remove(palletNode *pallet)
     {
         if (firstNode == NULL)
