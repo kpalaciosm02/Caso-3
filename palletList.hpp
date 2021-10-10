@@ -105,6 +105,16 @@ struct palletList
         }
 
     }
+
+    void print()
+    {
+        palletNode *tempNode=firstNode;
+        while(tempNode != NULL)
+        {
+            tempNode->print();
+            tempNode=tempNode->next;
+        }
+    }
 };
 #endif
 
